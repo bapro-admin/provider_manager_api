@@ -24,7 +24,7 @@ export const validarJWT = async (req: Request, res:  Response, next: any) => {
     try {
         const TokenArray = token.split(" ");
         //validar que el usuario exista en base de datos
-        const decoded = jwt.verify(TokenArray[1], process.env.SECRETORPRIVATEKEY!) as { uid: number }; 
+        const decoded = jwt.verify(TokenArray[1], process.env.SECRETKEY!) as { uid: number }; 
         const user = await User.findByPk(decoded.uid);
         if(user){
             req.authorUid = decoded.uid
