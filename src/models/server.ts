@@ -13,9 +13,9 @@ class Server {
     private app: Application;
     private port: string;
     private apiRoutes = { //implement later
-        auth: '/api/auth',
-        users: '/api/users',
-        providers: '/api/providers', 
+        auth: '/auth',
+        users: '/users',
+        providers: '/providers', 
     }
 
     constructor(){
