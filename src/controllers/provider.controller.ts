@@ -2,6 +2,9 @@ import { Request, Response } from "express"
 import { Provider, User } from "../models";
 import { Op } from 'sequelize';
 import ExcelJS from "exceljs";
+import * as dotenv from "dotenv";
+
+
 
 export const listProviders = async (req: Request, res: Response) => {
     const { authorUid } = req;
@@ -83,7 +86,8 @@ export const getProvider = async (req: Request, res: Response) => {
 
 export const createProvider = async (req: Request, res: Response) => {
     const { body, authorUid } = req;
-
+    process.env.MAX_PROVIDERS as unknown as boolean
+    const max_providers_feature = process.env.MAX_PROVIDERS || true;
     try {
         // Obtener la fecha actual (inicio del día)
         const today = new Date();
@@ -99,13 +103,16 @@ export const createProvider = async (req: Request, res: Response) => {
             },
         });
 
-        // Validar si ha alcanzado el límite
-        const MAX_PROVIDERS_PER_DAY = 20;
-        if (providersToday >= MAX_PROVIDERS_PER_DAY) {
-            return res.status(400).json({
-                msg: `Solo puedes crear ${MAX_PROVIDERS_PER_DAY} proveedores por día.`,
-            });
+        if(max_providers_feature){
+            // Validar si ha alcanzado el límite
+            const MAX_PROVIDERS_PER_DAY = 20;
+            if (providersToday >= MAX_PROVIDERS_PER_DAY) {
+                return res.status(400).json({
+                    msg: `Solo puedes crear ${MAX_PROVIDERS_PER_DAY} proveedores por día.`,
+                });
+            }
         }
+        
 
         // Crear el proveedor si no ha alcanzado el límite
         const provider = new Provider(body);

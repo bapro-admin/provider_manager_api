@@ -57,7 +57,6 @@ Provider.init(
         rfc: {
             type: DataTypes.STRING(13),
             allowNull: true,
-            unique: true,
         },
         address: {
             type: DataTypes.TEXT,
