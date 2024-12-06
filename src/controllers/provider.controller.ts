@@ -94,7 +94,7 @@ export const createProvider = async (req: Request, res: Response) => {
         today.setHours(0, 0, 0, 0);
 
         // Contar los proveedores creados por el usuario en el día actual
-        /* const providersToday = await Provider.count({
+        const providersToday = await Provider.count({
             where: {
                 operatorId: authorUid,
                 created_at: {
@@ -103,16 +103,13 @@ export const createProvider = async (req: Request, res: Response) => {
             },
         });
 
-        if(max_providers_feature){
-            // Validar si ha alcanzado el límite
-            const MAX_PROVIDERS_PER_DAY = 20;
-            if (providersToday >= MAX_PROVIDERS_PER_DAY) {
-                return res.status(400).json({
-                    msg: `Solo puedes crear ${MAX_PROVIDERS_PER_DAY} proveedores por día.`,
-                });
-            }
-        } */
-        
+        // Validar si ha alcanzado el límite
+        const MAX_PROVIDERS_PER_DAY = 20;
+        if (providersToday >= MAX_PROVIDERS_PER_DAY) {
+            return res.status(400).json({
+                msg: `Solo puedes crear ${MAX_PROVIDERS_PER_DAY} proveedores por día.`,
+            });
+        }
 
         // Crear el proveedor si no ha alcanzado el límite
         const provider = new Provider(body);
