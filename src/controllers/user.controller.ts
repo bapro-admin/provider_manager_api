@@ -82,6 +82,8 @@ export const updateUser = async (req: Request, res: Response) => {
             }
         }
 
+        const salt = bcryptjs.genSaltSync();
+        body.password = bcryptjs.hashSync(body.password, salt)
         await user.update(body);
         res.json(user)
 
